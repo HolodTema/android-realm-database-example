@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/menuItemPetsToAdopt"
+        android:icon="@drawable/ic_bottom_nav"
+        android:title="Pets to adopt" />
+    <item
+        android:id="@+id/menuItemAdoptedPets"
+        android:icon="@drawable/ic_bottom_nav"
+        android:title="Adopted pets" />
+    <item
+        android:id="@+id/menuItemOwners"
+        android:icon="@drawable/ic_bottom_nav"
+        android:title="Owners" />
+</menu>
