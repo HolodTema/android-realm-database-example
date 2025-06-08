@@ -3,6 +3,7 @@ package com.terabyte.realmdatabaseexample.activity
 import android.os.Bundle
 import android.text.TextUtils.replace
 import androidx.activity.enableEdgeToEdge
+import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
@@ -40,25 +41,33 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun configureBottomNavView() {
-        setCurrentFragment(viewModel.liveDataCurrentBottomNavFragment.value.objectInstance!!)
-
         binding.bottomNavMain.setOnItemSelectedListener { menuItem ->
-            when(menuItem.itemId) {
-                R.id.menuItemPetsToAdopt -> {
-                    setCurrentFragment(PetsToAdoptFragment())
-                }
-                R.id.menuItemAdoptedPets -> {
-                    setCurrentFragment(AdoptedPetsFragment())
-                }
-                R.id.menuItemOwners -> {
-                    setCurrentFragment(OwnersFragment())
-                }
-            }
+            viewModel.liveDataCurrentMenuItemId.value = menuItem.itemId
             true
+        }
+
+        viewModel.liveDataCurrentMenuItemId.observe(this) {
+            setCurrentFragment(it)
         }
     }
 
-    private fun setCurrentFragment(fragment: Fragment) {
+    private fun setCurrentFragment(@LayoutRes menuItemId: Int) {
+        val fragment = when(menuItemId) {
+            R.id.menuItemPetsToAdopt -> {
+                PetsToAdoptFragment()
+            }
+            R.id.menuItemAdoptedPets -> {
+                AdoptedPetsFragment()
+            }
+            R.id.menuItemOwners -> {
+                OwnersFragment()
+            }
+            else -> {
+                PetsToAdoptFragment()
+            }
+        }
+
+
         supportFragmentManager.beginTransaction().apply {
             replace(R.id.frameMainFragments, fragment)
             commit()
