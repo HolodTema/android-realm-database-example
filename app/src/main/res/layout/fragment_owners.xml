@@ -3,22 +3,24 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".fragment.OwnersFragment">
 
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerOwners"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/recyclerOwners"
-        android:layout_margin="10dp"/>
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        android:layout_margin="10dp" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:layout_width="wrap_content"
-        android:src="@drawable/ic_bottom_nav"
-        android:contentDescription=""
-        android:layout_height="wrap_content"
         android:id="@+id/buttonAddOwner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
+        android:layout_marginEnd="10dp"
         android:layout_marginBottom="10dp"
-        android:layout_marginEnd="10dp"/>
+        android:contentDescription=""
+        android:src="@drawable/ic_bottom_nav" />
 
 </FrameLayout>

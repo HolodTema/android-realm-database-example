@@ -6,11 +6,15 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.terabyte.realmdatabaseexample.databinding.BottomSheetAddOwnerBinding
 import com.terabyte.realmdatabaseexample.databinding.BottomSheetAddPetBinding
 import com.terabyte.realmdatabaseexample.databinding.FragmentOwnersBinding
+import com.terabyte.realmdatabaseexample.realm.OwnerModel
+import com.terabyte.realmdatabaseexample.ui.OwnersAdapter
 import com.terabyte.realmdatabaseexample.viewmodel.MainViewModel
+import java.security.acl.Owner
 
 
 class OwnersFragment : Fragment() {
@@ -23,6 +27,8 @@ class OwnersFragment : Fragment() {
     ): View {
         viewModel = ViewModelProvider(requireActivity())[MainViewModel::class]
         binding = FragmentOwnersBinding.inflate(inflater)
+
+        configureRecyclerView()
 
         binding.buttonAddOwner.setOnClickListener {
             showBottomSheetAddOwner()
@@ -42,5 +48,14 @@ class OwnersFragment : Fragment() {
         dialog.setCancelable(true)
         dialog.setContentView(bindingBottomSheet.root)
         dialog.show()
+    }
+
+    private fun configureRecyclerView() {
+        val owners = listOf(
+            OwnerModel.createDefault(),
+            OwnerModel.createDefault(),
+            OwnerModel.createDefault()
+        )
+        binding.recyclerOwners.adapter = OwnersAdapter(owners, layoutInflater)
     }
 }
