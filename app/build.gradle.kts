@@ -1,7 +1,10 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.kotlin.kapt)
 }
+
+apply(plugin = "realm-android")
 
 android {
     namespace = "com.terabyte.realmdatabaseexample"
@@ -40,6 +43,7 @@ android {
 }
 
 dependencies {
+
     //lifecycle viewModel and liveData
     implementation(libs.androidx.lifecycle.viewmodel)
     implementation(libs.androidx.lifecycle.livedata)

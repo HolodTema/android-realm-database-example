@@ -1,0 +1,11 @@
+package com.terabyte.realmdatabaseexample.application
+
+import android.app.Application
+
+class MyApplication: Application() {
+
+    override fun onCreate() {
+        super.onCreate()
+        Realm.init(this)
+    }
+}
