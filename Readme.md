@@ -4,11 +4,13 @@ https://www.kodeco.com/25768145-realm-database-on-android-getting-started
 ### How to configure Gradle to add Realm database
 1. you need to add kapt plugin to project
 
-2. add such code in your project build.gradle.kts file:
+2. add such code in your project build.gradle.kts file. 
+Version of Realm must be more than 10.5.1, because only
+newer versions of Realm can work with Gradle 8.
 ```
 buildscript {
     dependencies {
-        classpath("io.realm:realm-gradle-plugin:10.6.0")
+        classpath("io.realm:realm-gradle-plugin:10.17.1")
     }
 }
 ```
@@ -18,15 +20,3 @@ buildscript {
 apply(plugin = "realm-android")
 ```
 
-4. And you need to prefer project repositories over settings repositories. 
-So, you need to delete this lines from settings.gradle:
-```
-dependencyResolutionManagement {
-    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
-    repositories {
-        google()
-        mavenCentral()
-    }
-}
-```
----------------------------------

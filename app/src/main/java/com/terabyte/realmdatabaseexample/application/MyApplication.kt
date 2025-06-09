@@ -1,6 +1,7 @@
 package com.terabyte.realmdatabaseexample.application
 
 import android.app.Application
+import io.realm.Realm
 
 class MyApplication: Application() {
 
