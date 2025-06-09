@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.terabyte.realmdatabaseexample.databinding.RecyclerItemOwnerBinding
 import com.terabyte.realmdatabaseexample.realm.OwnerModel
 
-class OwnersAdapter(private val owners: List<OwnerModel>, private val inflater: LayoutInflater): RecyclerView.Adapter<OwnersAdapter.Holder>() {
+class OwnersAdapter(var owners: List<OwnerModel>, private val inflater: LayoutInflater): RecyclerView.Adapter<OwnersAdapter.Holder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
         return Holder(RecyclerItemOwnerBinding.inflate(inflater))

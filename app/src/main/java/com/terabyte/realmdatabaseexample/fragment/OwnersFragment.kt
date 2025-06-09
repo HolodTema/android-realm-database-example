@@ -12,8 +12,11 @@ import com.terabyte.realmdatabaseexample.databinding.BottomSheetAddOwnerBinding
 import com.terabyte.realmdatabaseexample.databinding.BottomSheetAddPetBinding
 import com.terabyte.realmdatabaseexample.databinding.FragmentOwnersBinding
 import com.terabyte.realmdatabaseexample.realm.OwnerModel
+import com.terabyte.realmdatabaseexample.realm.RealmHelper
 import com.terabyte.realmdatabaseexample.ui.OwnersAdapter
 import com.terabyte.realmdatabaseexample.viewmodel.MainViewModel
+import io.realm.Realm
+import io.realm.RealmChangeListener
 import java.security.acl.Owner
 
 
@@ -30,9 +33,14 @@ class OwnersFragment : Fragment() {
 
         configureRecyclerView()
 
+        viewModel.liveDataOwners.observe(requireActivity()) {
+            binding.recyclerOwners.adapter!!.notifyDataSetChanged()
+        }
+
         binding.buttonAddOwner.setOnClickListener {
             showBottomSheetAddOwner()
         }
+
         return binding.root
     }
 
@@ -41,8 +49,16 @@ class OwnersFragment : Fragment() {
         val bindingBottomSheet = BottomSheetAddOwnerBinding.inflate(layoutInflater)
 
         bindingBottomSheet.buttonAddOwner.setOnClickListener {
-            // TODO: add owner to database
-            dialog.dismiss()
+
+            val ownerModel = OwnerModel()
+            // TODO: make owner type available
+            ownerModel.name = bindingBottomSheet.editOwnerName.text.toString()
+            ownerModel.type = 1
+
+            RealmHelper.createRealmObject(ownerModel) {
+                viewModel.updateOwners()
+                dialog.dismiss()
+            }
         }
 
         dialog.setCancelable(true)
@@ -51,11 +67,6 @@ class OwnersFragment : Fragment() {
     }
 
     private fun configureRecyclerView() {
-        val owners = listOf(
-            OwnerModel.createDefault(),
-            OwnerModel.createDefault(),
-            OwnerModel.createDefault()
-        )
-        binding.recyclerOwners.adapter = OwnersAdapter(owners, layoutInflater)
+        binding.recyclerOwners.adapter = OwnersAdapter(viewModel.liveDataOwners.value!!, layoutInflater)
     }
 }

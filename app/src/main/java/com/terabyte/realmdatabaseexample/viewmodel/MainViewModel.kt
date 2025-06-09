@@ -7,9 +7,22 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.terabyte.realmdatabaseexample.R
 import com.terabyte.realmdatabaseexample.fragment.PetsToAdoptFragment
+import com.terabyte.realmdatabaseexample.realm.OwnerModel
+import com.terabyte.realmdatabaseexample.realm.RealmHelper
 
 class MainViewModel(val myApplication: Application): AndroidViewModel(myApplication) {
     val liveDataCurrentMenuItemId = MutableLiveData(R.id.menuItemPetsToAdopt)
+    val liveDataOwners = MutableLiveData<List<OwnerModel>>(listOf())
+
+    init {
+        updateOwners()
+    }
+
+    fun updateOwners() {
+        RealmHelper.getAll(OwnerModel::class.java) {
+            liveDataOwners.value = it
+        }
+    }
 
     class Factory(private val application: Application): ViewModelProvider.AndroidViewModelFactory() {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
