@@ -48,4 +48,19 @@ object RealmHelper {
             }
         })
     }
+
+    fun<T: RealmObject> setChangeListenerForAll(modelClass: Class<T>, onChange: (List<T>) -> Unit) {
+        val realm = Realm.getDefaultInstance()
+        val result = realm.where(modelClass).findAllAsync()
+        result.addChangeListener( RealmChangeListener {
+            if (it.isNotEmpty()) {
+                it.addChangeListener( RealmChangeListener {
+                    onChange(it)
+                })
+            }
+        })
+    }
+
+
+
 }

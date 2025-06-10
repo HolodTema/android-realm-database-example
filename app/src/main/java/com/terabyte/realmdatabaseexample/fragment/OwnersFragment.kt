@@ -24,6 +24,8 @@ import java.security.acl.Owner
 class OwnersFragment : Fragment() {
     private lateinit var binding: FragmentOwnersBinding
     private lateinit var viewModel: MainViewModel
+    private lateinit var adapter: OwnersAdapter
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -34,15 +36,14 @@ class OwnersFragment : Fragment() {
 
         configureRecyclerView()
 
-        viewModel.liveDataOwners.observe(requireActivity()) {
-            Toast.makeText(requireContext(), "Observer", Toast.LENGTH_SHORT).show()
-            binding.recyclerOwners.adapter!!.notifyDataSetChanged()
-        }
-
         binding.buttonAddOwner.setOnClickListener {
             showBottomSheetAddOwner()
         }
 
+        RealmHelper.setChangeListenerForAll(OwnerModel::class.java) {
+            adapter.updateOwnersList(it)
+            adapter.notifyDataSetChanged()
+        }
         return binding.root
     }
 
@@ -58,7 +59,6 @@ class OwnersFragment : Fragment() {
             ownerModel.type = 1
 
             RealmHelper.createRealmObject(ownerModel) {
-                viewModel.updateOwners()
                 dialog.dismiss()
             }
         }
@@ -69,6 +69,11 @@ class OwnersFragment : Fragment() {
     }
 
     private fun configureRecyclerView() {
-        binding.recyclerOwners.adapter = OwnersAdapter(viewModel.liveDataOwners.value!!, viewModel, layoutInflater)
+        adapter = OwnersAdapter(listOf(), viewModel, layoutInflater)
+        binding.recyclerOwners.adapter = adapter
+
+        RealmHelper.getAll(OwnerModel::class.java) {
+            adapter.updateOwnersList(it)
+        }
     }
 }

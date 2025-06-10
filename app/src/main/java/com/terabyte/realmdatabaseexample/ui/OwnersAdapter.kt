@@ -8,7 +8,7 @@ import com.terabyte.realmdatabaseexample.realm.OwnerModel
 import com.terabyte.realmdatabaseexample.realm.RealmHelper
 import com.terabyte.realmdatabaseexample.viewmodel.MainViewModel
 
-class OwnersAdapter(var owners: List<OwnerModel>, private val viewModel: MainViewModel, private val inflater: LayoutInflater): RecyclerView.Adapter<OwnersAdapter.Holder>() {
+class OwnersAdapter(private var owners: List<OwnerModel>, private val viewModel: MainViewModel, private val inflater: LayoutInflater): RecyclerView.Adapter<OwnersAdapter.Holder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
         return Holder(RecyclerItemOwnerBinding.inflate(inflater))
@@ -18,15 +18,15 @@ class OwnersAdapter(var owners: List<OwnerModel>, private val viewModel: MainVie
         val owner = owners[position]
         holder.binding.textOwnerName.text = owner.name
         holder.binding.imageDeleteOwner.setOnClickListener {
-            RealmHelper.deleteRealmObject(owner.id, OwnerModel::class.java) {
-                viewModel.updateOwners()
-            }
+            RealmHelper.deleteRealmObject(owner.id, OwnerModel::class.java) { }
         }
     }
 
     override fun getItemCount() = owners.size
 
-    class Holder(val binding: RecyclerItemOwnerBinding): RecyclerView.ViewHolder(binding.root) {
-
+    fun updateOwnersList(owners: List<OwnerModel>) {
+        this.owners = owners
     }
+
+    class Holder(val binding: RecyclerItemOwnerBinding): RecyclerView.ViewHolder(binding.root)
 }
