@@ -7,6 +7,7 @@
     tools:context=".fragment.OwnersFragment">
 
     <androidx.recyclerview.widget.RecyclerView
+        android:visibility="visible"
         android:id="@+id/recyclerOwners"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -21,6 +22,14 @@
         android:layout_marginEnd="10dp"
         android:layout_marginBottom="10dp"
         android:contentDescription=""
-        android:src="@drawable/ic_bottom_nav" />
+        android:src="@drawable/ic_add" />
+
+    <TextView
+        android:visibility="invisible"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:id="@+id/textCaptionEmptyRecyclerView"
+        android:text="There is no owners."/>
 
 </FrameLayout>

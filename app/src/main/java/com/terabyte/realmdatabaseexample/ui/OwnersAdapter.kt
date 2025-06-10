@@ -18,7 +18,11 @@ class OwnersAdapter(private var owners: List<OwnerModel>, private val viewModel:
         val owner = owners[position]
         holder.binding.textOwnerName.text = owner.name
         holder.binding.imageDeleteOwner.setOnClickListener {
-            RealmHelper.deleteRealmObject(owner.id, OwnerModel::class.java) { }
+            if (owner.isValid) {
+                RealmHelper.deleteRealmObject(owner.id, OwnerModel::class.java) {
+                    viewModel.updateOwnersList()
+                }
+            }
         }
     }
 

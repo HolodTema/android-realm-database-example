@@ -3,12 +3,6 @@ package com.terabyte.realmdatabaseexample.realm
 import io.realm.Realm
 import io.realm.RealmChangeListener
 import io.realm.RealmObject
-import io.realm.kotlin.delete
-import io.realm.kotlin.load
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
-import kotlinx.coroutines.launch
 
 object RealmHelper {
 
@@ -42,8 +36,10 @@ object RealmHelper {
     fun<T: RealmObject> getAll(modelClass: Class<T>, listener: (List<T>) -> Unit) {
         val realm = Realm.getDefaultInstance()
         val result = realm.where(modelClass).findAllAsync()
+        var isResultExecuted = false
         result.addChangeListener( RealmChangeListener {
-            if (it.isNotEmpty()) {
+            if (!isResultExecuted) {
+                isResultExecuted = true
                 listener(it)
             }
         })
@@ -60,7 +56,4 @@ object RealmHelper {
             }
         })
     }
-
-
-
 }
